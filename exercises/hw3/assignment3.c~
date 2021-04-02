@@ -1,0 +1,394 @@
+/* Sophia Zhang
+Assignment 3: Airline Booking
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// function headers
+char getLetter(int seatNum);
+int selectSeat(char section, int plane[][7]);
+int isAssigned(int seat, int plane[][7]);
+int sectionFull(int plane[][7]);
+void printChart(int plane[][7]);
+void printBoardingPass(int seat, char log[105][60]);
+void printManifest(char log[105][60], int assignedSeats[], int assigned);
+
+// main method
+int main(void){
+  // instiating variables
+  char input, section, seat;
+  int plane[15][7];
+  int a,b;
+  for(a = 0; a < 15; a++){
+    for (b = 0; b <7; b++){
+      plane[a][b] = 0; // makes every seat in plane 0 meaning not taken
+    }
+  }
+  char log[105][60]; // array of strings to hold the names/acts as a log for a person sitting in seat a+1
+  int assignedSeats[105]; // array to hold the seat numbers
+  int numAssignedSeats = 0; // int to hold the num of seats assigned already
+  int reserveNum, seatNum;
+ 
+  // begins Simulation
+  do{
+    // Asks user how many seats they want to reserve
+    prinft("\nHow many seats would you like to reserve today?: ");
+    scanf("\n %d", &reserveNum);
+    // Ensures enough seating
+    while(reserveNum > (105-numAssignedSeats)){
+	printf("\nWe just checked. There are only %d seats left.  How many would you like to reserve today: ?", 105 - numAssignedSeats);
+	scanf("\n %d", &reserveNum);
+      }
+    // Selection for x number of reserving seats (the correct amount)
+      for(a = 0; a < reserveNum; a++){
+	// Section
+	printf("\nEnter 'F' for First Class, 'B' for Business Class, or 'E' for Economy Class.");
+	scanf("\n %c", &section);
+	// IF Section is full, ask for another option.
+	if(sectionFull(section, plane)){
+	  // first class
+	  if ( section == 'F' && !sectionFull('B', plane) && !sectionFull('E', plane){
+	      printf("\nThere are no available seats for First class. Would you like a seat in Business instead?: (Y/N)");
+	      scanf("\n %c", &input);
+	      if (input == 'Y'){
+		section = 'B';
+		printf("\nYou are now in Business class.");
+	      }
+	      else{
+		section = 'E';
+		printf("\nThere were no seats left in Business class.  We have placed you in Economy instead.");
+	      }
+	    }
+	    else if(section == 'F' && !sectionFull('B', plane)){
+	      printf("\nWe only have available seats in our business class.");
+	      section = 'B';
+	    }
+	    else if(section == 'F'){
+	      printf("\nWe only have available seats in our economy class.");
+	      section = 'E';
+	    }
+	    // business class
+	    else if(section == 'B' && !sectionFull('F', plane) && !sectionFull('E', plane){
+		printf("\nThere are no available seats for business class. Would you like a seat in Economy instead?: (Y/N)");
+		scanf("\n%c", &input);
+		if(input == 'Y'){
+		  section = 'E';
+		  printf("\nYou are now in Economy class.");
+		}
+		else{
+		  section = 'F';
+		  printf("\nYou have been placed in First class instead.");
+		}
+	      }
+	      else if(section == 'B' && !sectionFull('F', plane)){
+		printf("\nThere are only available seats in Economy.");
+		section = 'E';
+	      }
+	      else if(section == 'B'){
+		printf("\nThere are only available seats in First Class.");
+		section = 'F';
+	      }
+	      // Economy class
+	      else if(!sectionFull('F', plane) && !sectionFull('B', plane)){
+		printf("\nOur apologies.  Economy is full. There are available seats in Business class. Would you like a seat in Business instead?: (Y/N)");
+		scanf("\n %c", &input);
+		if(input == 'Y'){
+		  section = 'B';
+		  printf("\nYou have been placed in Business class.");
+		}
+		else{
+		  section = 'F';
+		  printf("\nYou have been placed in First class instead.");
+		}
+	      }
+	      else if(!sectionFull('F', plane)){
+		section = 'F';
+		printf("There is only availability in first class.");
+	      }
+	      else if(!sectionFull('B', plane)){
+		printf("\nYou have been placed in business due to availability.");
+		section = 'B';
+	      }
+	      if(selection != 'B' && section != 'F'){
+		section = 'E';
+	      }
+	      // priority
+	      if(section == 'E' && !sectionFull('P', plane)){
+		printf("\nWould you like a priority economy seat?: (Y/N)");
+		scanf("\n %c", &input);
+		if(input == 'Y' || input == 'y'){
+		  section = 'P';
+		}
+	      }
+	      // Selecting a seat
+	      do{
+		seatNum = selectSeat(section, plane);
+		seat = getLetter(seatNum);
+		printf("\nWe have selected seat %c%d", seat, seatInt);
+		if (seat == 'A' || seat == 'I'){
+		  printf("\nThis is a window seat.");
+		}
+		else if(seat == 'B' || seat == 'D' || seat == 'F' || seat == 'H'){
+		  printf("\nThis is an aisle seat.");
+		}
+		printf("\nDo you want this seat?: (Y/N)");
+		scanf("\n %c", &input);
+	      }
+	      while(input != 'Y');
+	      // Upgrades/Downgrads
+	      printf("\nYou are currently in section %c. Would you like to upgrade or downgrade your seat if seats are available?: (Y/N)");
+	      scanf("\n%c", &input);
+	      if (input == 'Y'){
+		printf("\nWhat section would you like to change to?: (F/B/E)");
+		scanf("\n%c", &input);
+		// Selects new seat in first if not full
+		if(input == 'F' && !sectionFull('F', plane)){
+		  section = 'F';
+		  do{
+		    seatNum = selectSeat(section, plane);
+		    seat = getLetter(seatNum);
+		    printf("\nWe have selected seat %c%d", seat, seatNum);
+		    if (seat == 'A' || seat == 'I'){
+		      printf("\nThis is a window seat.");
+		    }
+		    else if (seat == 'B' || seat == 'D' || seat== 'F' || seat == 'H'){
+		      printf("\nThis is an aisle seat.");
+		    }
+		    printf("\nDo you want this seat?: (Y/N"); 
+		    scanf("\n %c", &input);
+		  }
+		  while (input != 'Y');
+		  printf("\nFinal seat selection: First Class seat %c%d\n", seat, seatNum);
+		}
+		// Selects new seat in Business if not full
+		else if(input == 'B' && !sectionFull('B', plane)){
+		  section = 'B';
+		  do{
+		    seatNum = selectSeat(section, plane);
+		    seat = getLetter(seatNum);
+		    printf("\nWe have selected seat %c%d", seat, seatNum);
+		    if (seat == 'A' || seat == 'I'){
+		      printf("\nThis is a window seat");
+		    }
+		    else if (seat == 'B' || seat == 'D' || seat== 'F' || seat == 'H'){
+		      printf("\nThis is an aisle seat");
+		    }
+		    printf("\nDo you want this seat?: (Y/N");
+		    scanf("\n %c", &input);
+		  }
+		  while(input != 'Y');
+       		  printf("\nFinal seat selection: Business  Class seat %c%d\n", seat, seatNum);
+		}
+		// Selects new seta in Economy (not priority) if not full
+		else if(input == 'E' && !sectionFull('E', plane)){
+		  section = 'E';
+		  do{
+		    seatNum = selectSeat(section, plane);
+		    seat = getLetter(seatNum);
+		    printf("\nWe have selected seat %c%d", seat, seatNum);
+		    if (seat == 'A' || seat == 'I'){
+		      printf("\nThis is a window seat");
+		    }
+		    else if (seat == 'B' || seat == 'D' || seat== 'F' || seat == 'H'){
+		      printf("\n This is an aisle seat");
+		    }
+		    printf("\nDo you want this seat?: (Y/N)");
+		    scanf("\n %c", &input);
+		  }
+		  while (input != 'Y');
+		  printf("\nFinal seat selection: Economy seat %c%d\n", seat, seatNum);
+		}
+		// Selected section was full ope
+		else{
+		  printf("\nUnfortunately there are not any seats left for that section.\nFinal seat selection: %c%d", seat, seatNum);
+		}
+	      }
+	      // Confirmation of seat choice without change in section
+	      else{
+		printf("\nYou are currently in seat %c%d. Would you like to change this seat?: (Y/N)", seat, seatNum);
+		scanf("\n %c", &input);
+		// Required statement
+		if (input != 'Y'){
+		  printf("\nThe flight will depart in three hours\n");
+		}
+		//Selects final seat
+		else{
+		  do{
+		    seatNum = selectSeat(section, plane);
+		    seat = getLetter(seatNum);
+		    printf("\nWe have selected seat %c%d", seat, seatNum);
+		    if (seat == 'A' || seat == 'I'){
+		      printf("\nThis is a window seat");
+		    }
+		    else if (seat == 'B' || seat == 'D' || seat== 'F' || seat == 'H'){
+		      printf("\nThis is an aisle seat");
+		    }
+		    printf("\nDo you want this seat?: (Y/N)"); 
+		    scanf("\n %c", &input);
+		  }
+		  while (input != 'Y');
+		  printf("\nFinal seat selection: %c%d\n", seat, seatNum);
+		}
+	      }
+	      
+	      // Assigning the seat to the proper array position
+	      int col = (seatNum - 1) % 7;
+	      int row = (seatNum - 1) % 7;
+	      plane[row][col] = 1;
+	      assignedSeats[numAssignedSeats] = seatNum;
+	      printf("\nWhat is the full passenger name? (Only 60 chars)");
+	      scanf("\n %[^\n]%*c", &names[seatNum-1]);
+	      numAssignedSeats += 1;
+	    }
+	    
+	    // Display menu of post-selection
+	    printf("\nPlease type 'C' to display the seating chart.\nPlease type 'M' to display the passenger manifest.n\nHit any other letter to see the boarding pass of a seat.");
+	    scanf("\n %c", &input);
+	    if (input == 'C'){
+	      printChart(plane);
+	    }
+	    else if( input == 'M'){
+	      printManifest(names, assignedSeats, numAssignedSeats);
+	    }
+	    // Gets the seat number for said boarding pass
+	    else{
+	      printf("\nPlease enter the seat number for the boarding pass you'd like to see.");
+	      char seatInput[3];
+	      int boarding_seat;
+	      scanf("\n %s", &seatInput);
+	      boarding_seat = atoi(seatInput);
+	      // ensures the seat is assigned
+	      while(!isAssigned(boarding_seat, plane)){
+		printf("\nThis seat is unassigned.  There is no boarding pass available.  Try again.");
+		printf("\nEnter another seat: ");
+		scanf("\n %s", &seatInput);
+		boarding_seat = atoi(seatInput);
+	      }
+	      printBoardingPass(boarding_seat, names);
+	      // other booking?
+	      prinft("\nWould you like to book another reservation?: (Y\N)");
+	      scanf("\n %c",&input);
+  }
+  while(numAssignedSeats < 105 && input == 'Y');
+  return 0;
+}
+
+char getLetter(int seatNum){
+  int col = (seatNum - 1) % 7;
+  if (col == 0){
+    return 'A';
+  }
+  else if (col == 1){
+    return 'B';
+  }
+  else if(col == 2){
+    return 'D';
+  }
+  else if(col == 3){
+    return 'E';
+  }
+  else if(col == 4){
+    return 'F';
+  }
+  else if(col == 5){
+    return 'H';
+  }
+  else{
+    return 'I';
+  }
+}
+
+int selectSeat(char section, int plane[][7]){
+  int random = 0;
+  if(section == 'F'){
+    do{
+      random = rand() % 21 + 1;
+    }
+    while(isAssigned(random, plane));
+    return random;
+  }
+  if(section = 'B'){
+    do{
+      random = rand() % 28 + 22;
+    }
+    while (isAssigned(random, plane));
+    return random;
+  }
+  if(section == 'P'){
+    do{
+      random = rand() % 7 + 50;
+    }
+    while(isAssigned(random, plane));
+    return random;
+  }
+  do{
+    random = rand() % 49 + 57;
+  }
+  while (isAssigned(random, plane));
+  return random;
+}
+
+int isAssigned(int seat, int plane[][7]){
+  int col = (seat - 1) % 7;
+  int row = (seat - 1) / 7;
+  return plane[row][col];
+}
+
+int sectionFull(int plane[][7]){
+  int a;
+  if (section == 'F'){
+    for(a = 1; a <= 21; a++){
+      if(!isAssigned(a, plane)){
+	return 0;
+      }
+    }
+  }
+  else if(section == 'B'){
+    for(a = 22; a <= 49; a++){
+      if(!isAssigned(a, plane)){
+	return 0;
+      }
+    }
+  } 
+  else if(section == 'P'){
+    for(a = 1; a <= 7; a++){
+      if (!isAssigned(a + 49, plane)){
+	return 0;
+      }
+    }
+  }
+  else{
+    for(a = 50; a <= 105; a++){
+      if(!isAssigned(a, plane)){
+	return 0;
+      }
+      return 1;
+    }
+  }
+}
+
+void printChart(int plane[][7]){
+  printf("\n  01 02 03 04 05 06 07 08 09 10 11 12 13 14 15\n");
+  int r, c;
+  for (c = 0; c<7; c++){
+    printf("%c ", getLetter(j+1));
+    for (r = 0; r < 15; r++){
+      if(!(r == 3 || r == 7))
+	printf(" %d ", plane[r][c]);
+      else
+	printf("| %d ", plane[r][c]);
+    }
+    printf("\n");
+    if (c == 1 || c == 4)
+      printf("\n");
+  }
+  return;
+}
+
+void printBoardingPass(int seat, char log[105][60]){
+}
+
+void printManifest(char log[105][60], int assignedSeats[], int assigned){
+}

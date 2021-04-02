@@ -1,0 +1,134 @@
+/* This is my pseudocode for Question 1. */
+
+function wSalCalc(argument1, argument 2){
+	 Calculates the weekly salary by multiplying the pay rate per week by week
+	 Returns a double
+}
+end
+function hSalCalc(argument1, argument 2){
+	 Calculates the hourly wage by taking the argument 2, hours, and subtracting 10 from it.  This 10 is then multiplied by the pay rate, argument 1.  This is later added to the product of 1.5 and the rest of their hours remaining.
+	 Returns a double.
+}
+end
+function cSalCalc(argument1){
+	 Calculates the commission by adding 250 to 7.1 * their hours
+	 Returns a double
+}
+end
+
+
+
+
+In the main function:
+   Define the variables: inputW, inputC, inputH, input, wTotalEmp, hTotalEmp, cTotalEmp, wFemEmp, hFemEmp, cFemEmp, wMaleEmp, hMaleEmp, cMaleEmp, wInterEmp, hInterEmp, cInterEmp, wDomEmp, hDomEmp, cDomEmp, wPay, hPay
+   Define the averages: avgFemSal, avgMaleSal, avgInterSal, avgDomSal, avgWSal, avgHSal, avgTotalSal, avgCSal
+
+   while input is not Q
+   	 do{
+		print prompt "Enter the following employee totals for weekly, hourly, and commission in the format of W# H# C#"
+		 Take in the first value as input as inputW
+		 Take in the second value as wTotalEmp
+		 Take in the third value as inputH
+	 	 Take in the fourth value as hTotalEmp
+	 	 Take in the fifth value as inputC
+	 	 Take in the sixth value as cTotalEmp
+	}while(inputW is not W and inputH is not H and inputC is not C or (any of the inputs are not Q))
+
+	 if neither inputW, inputC, or inputH is 'Q'
+	    input = 'E'
+	 else
+	    input = 'Q'
+	 
+	 switch(input)
+		case Q:
+		     print "Quit."
+		case E:
+		     print prompt "Enter the male, female, international, and domestic employees and the weekly fixed rate in the format: M# F# I# D# R#"
+		     Take the first number as wMaleEmp
+		     Take the second number as wFemaleEmp
+		     Take the third number as wInterEmp
+		     Take the fourth number as wDomEmp
+		     The the fifth number as the pay rate for wPay.
+		     print prompt "Enter the male, female, international, and d\
+omestic employees and the hourly fixed rate in the format: M# F# I# D# R#"
+                     Take the first number as hMaleEmp
+                     Take the second number as hFemaleEmp
+                     Take the third number as hInterEmp
+                     Take the fourth number as hDomEmp
+                     The the fifth number as the pay rate for hPay.
+		     print prompt "Enter the male, female, international, and domestic employees and the commission fixed rate in the format: M# F# I# D# R#"
+                     Take the first number as cMaleEmp
+                     Take the second number as cFemaleEmp
+                     Take the third number as cInterEmp
+                     Take the fourth number as cDomEmp
+		     Define int hour and double week
+		     for the wFemEmp: 
+		     	 print prompt "How many weeks did # female emp work"
+			 Take in the number as week
+			 avgFemSal += wSalCalc(wPay, week)
+			 avgWSal += wSalCalc(wPay, week)
+		     for the hFemEmp:
+                         int hour = 0;
+                         print prompt "How many hours did # female emp work"
+                         Take in the number as hours.
+                         avgFemSal += hSalCalc(hPay, hour)
+                         avgHSal += hSalCalc(hPay, hour)
+		     for the cFemEmp:
+                         print prompt "How many hours did # female emp work"
+                         Take in the number as hour.
+                         avgFemSal += cSalCalc(hour)
+                         avgCSal += cSalCalc(hour)
+		     for the wMaleEmp:
+                         print prompt "How many weeks did # emp work"
+                         Take in the number as week.
+                         avgMaleSal += wSalCalc(wPay, week)
+                         avgWSal += wSalCalc(wPay, week)
+		      for the hMaleEmp:
+                         print prompt "How many hours did # emp work"
+                         Take in the number as hour.
+                         avgMaleSal += hSalCalc(hPay, hour)
+                         avgHSal += hSalCalc(hPay, hour)
+		      for the cMaleEmp:
+                         print prompt "How many hours did # emp work"
+                         Take in the number as hour.
+                         avgMaleSal += cSalCalc(hour)
+                         avgCSal += cSalCalc(hour)
+                      for the wInterEmp:
+		      	 print prompt "How many weeks did # emp work"
+                         Take in the number as week.
+                         avgInterSal += wSalCalc(wPay, week)
+                         avgWSal += wSalCalc(wPay, week)
+		      for the hInterEmp:
+		      	 print prompt "How many hours did # emp work"
+                         Take in the number as hour.
+                         avgInterSal += hSalCalc(hPay, hour)
+                         avgHSal += hSalCalc(hPay, hour)
+		      for the cInterEmp:
+		    	 print prompt "How many hours did # emp work"
+                         Take in the number as hour.
+                         avgInterSal += cSalCalc( hour)
+                         avgCSal += cSalCalc( hour)
+		      for the wDomEmp:
+		      	 print prompt "How many weeks did # emp work"
+                         Take in the number as week.
+                         avgDomSal += wSalCalc(wPay, week)
+                         avgWSal += wSalCalc(wPay, week)
+		      for the hDomEmp:
+                         print prompt "How many hours did # emp work"
+                         Take in the number as hour.
+                         avgDomSal += hSalCalc(hPay, hour)
+                         avgHSal += hSalCalc(hPay, hour)
+		      for the cDomEmp:
+                         print prompt "How many hours did # emp work"
+                         Take in the number as hour.
+                         avgDomSal += cSalCalc( hour)
+                         avgCSal += cSalCalc( hour)
+		Divide all averages by the total number of each category.
+		Print out the summary of statistics such as "Number of male and female workers in each category and total numbers of workers in all"
+}
+end
+
+
+		     
+		     
+

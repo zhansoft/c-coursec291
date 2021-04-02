@@ -1,0 +1,5 @@
+Number: 1
+Chars: 56
+Numeric digits: 1
+Words w/ 1 vowel:12
+Sentence count: 2

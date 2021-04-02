@@ -1,0 +1,22 @@
+Sophia Zhang
+Pseudocode for Assignment 3
+
+probably will need to have libraries like stdio.h, stdlib,h, string.h...
+
+char getLetter(int seatNum){
+}
+int selectSeat(char section, int plane[][7]){
+       randomly will select a seat from the plane that is empty and then returnit.
+       if First Class{
+       }
+}
+int isAssigned(int seat, int plane[][7]){
+}
+int sectionFull(int plane[][7]);
+void printManifest(char log[105][50], int assignedSeats[], int assigned);
+void printBoardingPass(int seat, char log[105][50]);
+
+
+main method{
+     create 2D matrix/array with 15 rows & 7 columns
+     instantiate this array with zeroes

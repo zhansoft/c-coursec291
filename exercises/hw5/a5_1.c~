@@ -1,0 +1,72 @@
+/*
+Name: Sophia Zhang
+Assignment 5
+Date: 09/28/20
+*/
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+struct patientinformation{
+  char patient_name[20];
+  char* abbreviated_name;
+  unsigned int age;
+  struct{
+    char phone_number[11];
+    char address[60];
+    char city[20];
+    char state[3];
+    int zipCode;
+  } physical_address;
+  struct{
+    bool istested;
+    bool istested_positive;
+  } covid_test;
+} healthrecord, *healthrecord_ptr;
+
+int main(void){
+  // initializing
+
+  struct patientinformation healthrecord;
+   struct patientinformation *healthrecord_ptr;
+
+  healthrecord_ptr = &healthrecord;
+
+  sprintf(healthrecord.patient_name, "Sophia Zhang");
+  printf("\n%s", healthrecord.patient_name);
+  sprintf(healthrecord.abbreviated_name, "SZ");
+  printf("hi");
+  healthrecord_ptr -> age = 19;
+  sprintf((healthrecord_ptr -> physical_address).phone_number, "1234567890");
+  sprintf((healthrecord_ptr -> physical_address).address, "jarod is a betraying little man bitch");
+  sprintf((healthrecord_ptr -> physical_address).city, "boomerton");
+  sprintf((healthrecord_ptr -> physical_address).state, "IN");
+  (healthrecord_ptr -> physical_address).zipCode = 47408;
+  (healthrecord_ptr -> covid_test).istested = true;
+  (healthrecord_ptr -> covid_test).istested_positive = false;
+  
+  // Member patient_name of structure healthrecord
+  printf("\npatient_name access: %s", healthrecord.patient_name);
+
+  // Member patient_name of the structure pointed by healthrecord_ptr
+  printf("\nhealthrecord_ptr patient_name access: %s", healthrecord_ptr -> patient_name);
+
+  // Member abbreviated_name number of structure healthrecord
+  printf("\nabbreviated_name: %s", healthrecord.abbreviated_name);
+
+  // Member abbreviated_name of the structure pointed by healthrecord_ptr
+  printf("\nabbreviated_name by ptr: %s", healthrecord_ptr -> abbreviated_name);
+
+  /*   
+     Create a new character array of appropriate size
+     and assign abbreviated_name pointer to it for health record
+     and use it to print
+  */
+  char* aname_ptr = healthrecord_ptr -> abbreviated_name;
+  
+  printf("%s\n", aname_ptr);
+
+  return 0;
+}
+

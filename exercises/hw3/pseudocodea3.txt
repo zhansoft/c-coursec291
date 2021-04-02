@@ -1,0 +1,161 @@
+Sophia Zhang
+Pseudocode for Assignment 3
+
+probably will need to have libraries like stdio.h, stdlib,h, string.h...
+
+char get_letter(int seat_num);
+int select_seat(char section, int plane[][7]);
+int is_assigned(int seat, int plane[][7]);
+int section_full(char section, int plane[][7]);
+void print_chart(int plane[][7]);
+void print_boarding_pass(int seat, char log[105][60]);
+void print_manifest(char log[105][60], int assigned_seats[], int assigned);
+
+main method{
+     instantiate variables like input, section, seat, plane[15][7], a, b, log[105][60], assigned_seat[105], num_assigned_seats, reserve_num, seat_num
+     plane: create 2D matrix/array with 15 rows & 7 columns & instantiate with 0
+
+     do{
+	ask about the amount of seats to reserve
+	    while(the seats they want is greater than the amount of seats left){
+	    	      print number of seats that are left
+		      ask whatever they want to reserve
+	      }
+	for(number they provided to reserve){
+		   print the options: F/B/E
+		   ask which section
+		   while(section_full){
+			ask if they want another
+			repeat for business/economy & the possible combinations
+	 	   	if(economy){
+			ask priority or just reg
+			}
+		   }
+		   do{
+			select seat in that section
+		   }while(input != 'Y')
+		   
+		   ask if they want to upgrade their seat
+		   if(yes){
+			ask what section
+			if(section){
+				do{select_seat
+				tell whether if it's aisle or window
+				do they want
+				}
+				while(no)
+				tell them final seat
+			}
+	       	   }
+		   if(no){
+			ask for confirmation of seat
+			if(yes){
+				print flight will depart in 3 hours
+			}
+			else{
+				do{
+					select_seat
+					tell whether if its aisle or window
+					do they want
+				}while(no)
+				tell them final seat
+			}
+			}
+		
+		assign the seat
+		increment number of seats
+		add the seat number to teh 1D array
+		inquire about the full name
+		put full name in the log
+		}
+
+		display menu options
+		ask user for chart, manifest, or boarding pass
+		    if(chart){
+			print_chart
+	            }
+		    if(manifest){
+			print_manifest
+		    }
+		    if(boarding pass){
+		    	ask seat number
+			if it's not assigned
+			   tell them to try again
+			   get new seat number
+			print_boarding_pass
+		    }
+		}
+		while(number of seats assigned < 105 and the user input is Y)
+		return 0
+}
+
+get_letter takes in seat_num and returns the column
+	   calculate col
+	   returns A for col = 0, B for col = 1, D for col = 2, E for col = 3, F for col = 4, H for col = 5, I for all else
+
+select_seat takes in section and plane array and returns a randomly generated empty seat and returns it as an int
+	    if First Class
+	       do
+			Randomly generate number from 1-21
+	       while(is_assigned)
+	       return random
+	    if Business Class
+	       do
+			randomly generate number from 22-49
+	       while(is_assigned)
+	       return random
+	    if Priority Economy Class
+	       do
+			randomly generate number frmo 50-56
+	       while(is_assigned)
+	       return random
+	    do
+		randomly generate number from 57-105
+	    while(is_assigned)
+	    return random
+
+is_assigned takes in seat and the plane array and returns the seat after it can be assigned and approved
+	    calculates row/column
+	    return plane[row][col]
+
+section_full takes in section and plane array and returns 0/1 for whether full or not
+	     if First Class
+	     	for all seats in first class
+		    if not assigned seat
+		       return 0
+	     else if Business Class
+	     	for all seats in business class
+		    if not assigned seat
+		       return 0
+	     else if Priority Economy
+	     	for all seats in priority economy
+		    if not assigned seat
+		       return 0
+	     else (economy)
+	     	  for all setas in economy
+		      if not assigned
+		      	 return 0
+	     return 1
+
+print_chart takes in plane arrya and prints out the chart
+	    print top row labels
+	    for columns
+	    	print fitting character
+		for row	      
+		    if not in business or economy or first
+		       print " " + log 2D array value + " "
+		    else
+		       print " | " + log 2D array value + " "
+		    start new line
+
+print_boarding_pass takes in seat and log array and then prints out the boarding pass
+	     prints the name + name from seat position in log
+	     prints seat + seat number inputted
+	     print class: per class
+
+print_manifest takes log, assigned_seat, assigned and prints out who is there
+	     prints passenger full name tab tab tab seat number
+	     for(assigned seats in plane)
+	     		  get name from log
+			  print name get_letter seat number 
+    

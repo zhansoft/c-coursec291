@@ -1,0 +1,103 @@
+Bs/*
+Name: Sophia Zhang
+Date: October 14, 2020
+Assignment 6 Part 2
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void){
+
+  // instantiating vars
+  FILE *fPtr;
+  char txtfile[1000];
+  char option = 'c';
+  int c;
+  char word[100];
+  int numCount, numDigitCount, charCount, vowelCount, sentenceCount, temp;
+ 
+  printf("\nWhat txt file would you like to read?: \n");
+  scanf("\n%s", txtfile);
+  //  printf("\n%s", txtfile);
+  fPtr = fopen(txtfile, "r");
+  if( fPtr == NULL ){
+    puts("Nope.  Doesn't exist");
+  }
+  else{
+    
+    while(option != 'q' && option != 'Q'){
+      printf("\nHere are your options:");
+      printf("\nType a/A to display the number of numbers in the file.");
+      printf("\nType b/B to display the number of characters and numeric digits in the file.");
+      printf("\nType c/C to display the number of words which include at least 1 vowel in the file.");
+      printf("\nType d/D to display the number of sentences in a file.");
+      printf("\nType e/E to display analysis of the file.");
+      printf("\nType q/Q to quit.");
+      printf("\nYour option:\n");
+      scanf("\n%c", &option);
+      printf("\nOption: %c", option);
+
+      // Displaying all the number of numbers in the files.
+      if(option == 'a' || option == 'A'){	
+	while(1){
+	  int status = fgetc(fPtr);
+	  if(status < 0){
+	    break;
+	  }
+	  if(status >= 48 && status <= 57){
+	    numDigitCount++;
+	  }
+	}
+      }
+
+      // Displays number of characters and numeric digits in the files
+      if(option == 'b' || option == 'B'){
+	// digits
+	while(1){
+          int status = fgetc(fPtr);
+          if(status < 0){
+            break;
+          }
+	  if(status >= 48 && status <= 57){
+            numDigitCount++;
+	  }
+	}  
+	
+	// char
+	while(1){
+	  int status = fgetc(fPtr);
+	  if(status <0){
+	    break;
+	  }
+	  if( (status >= 65 && status <= 90) || (status >= 97 && status <= 122)){
+	    numChar++;
+	  }
+	}
+
+	printf("\nDigits: %d", numDigitCount);
+      }
+  
+
+      // Display number of words which include at least one vowel in a file.
+      if(option == 'c' || option == 'C'){
+	while(1){
+          int status = fscanf(fPtr, "%s", word);
+          if(status == -1){
+            break;
+          }
+          else if(status != 1){
+            fclose(fPtr);
+            fPtr = NULL;
+            return -1;
+          }
+          printf("%s\n", word);
+	}
+      }
+      
+	printf("\nnumCount: %d", numCount);
+    } 
+     //
+  }
+  return 0;
+}
